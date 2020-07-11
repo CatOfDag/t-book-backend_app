@@ -12,8 +12,8 @@ import java.util.Properties;
 
 public class EmailSend {
 
-    private static String mailFrom = "itcod@qq.com";
-    private static String authorization_code = "ubbbntgwzbhmdajb";
+    private static String mailFrom = "XXX@XX.com";
+    private static String authorization_code = "XXXXXXXXXX";
     private static String mailSubject = "Contacts-注册码";
     private static String mailHost = "smtp.qq.com";
     public static void emailSend(String internetAddress,String message) throws  GeneralSecurityException,MessagingException {

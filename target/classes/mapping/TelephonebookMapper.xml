@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huse.mapper.TelephonebookMapper" >
+  <resultMap id="BaseResultMap" type="com.huse.pojo.Telephonebook" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Department" property="department" jdbcType="VARCHAR" />
+    <result column="Duty" property="duty" jdbcType="VARCHAR" />
+    <result column="OfficeAdress" property="officeadress" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    Id, Name, Department, Duty, OfficeAdress
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from basicinformation
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from basicinformation
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.huse.pojo.Telephonebook" >
+    insert into basicinformation (Id, Name, Department, 
+      Duty, OfficeAdress)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{duty,jdbcType=VARCHAR}, #{officeadress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.huse.pojo.Telephonebook" >
+    insert into basicinformation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="department != null" >
+        Department,
+      </if>
+      <if test="duty != null" >
+        Duty,
+      </if>
+      <if test="officeadress != null" >
+        OfficeAdress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="officeadress != null" >
+        #{officeadress,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.huse.pojo.Telephonebook" >
+    update basicinformation
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        Department = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="duty != null" >
+        Duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="officeadress != null" >
+        OfficeAdress = #{officeadress,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.huse.pojo.Telephonebook" >
+    update basicinformation
+    set Name = #{name,jdbcType=VARCHAR},
+      Department = #{department,jdbcType=VARCHAR},
+      Duty = #{duty,jdbcType=VARCHAR},
+      OfficeAdress = #{officeadress,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectById" resultType="java.lang.String" parameterType="java.lang.Integer">
+    select TelephoneNum
+    from telephones
+    where Id = #{id,jdbcType = INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select *
+    from basicinformation
+  </select>
+  <insert id="insertToiphones">
+    insert into telephons(id,telephonNum)
+    values (#{id},#{telephonenum})
+  </insert>
+
+  <select id="selectUnKnownField" resultMap="BaseResultMap">
+    <if test="fieldname.equals('Name')">
+      select *
+      from basicinformation
+      where position(#{value} in Name)
+    </if>
+    <if test="fieldname.equals('Department')">
+      select *
+      from basicinformation
+      where position(#{value} in Department)
+    </if>
+    <if test="fieldname.equals('Duty')">
+      select *
+      from basicinformation
+      where position(#{value} in Duty)
+    </if>
+    <if test="fieldname.equals('Telephone')">
+
+    select *
+    from basicinformation
+    where id in(
+      select id
+      from telephones
+      where position(#{value} in TelephoneNum)
+    )
+    </if>
+  </select>
+</mapper>

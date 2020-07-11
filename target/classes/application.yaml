@@ -1,0 +1,44 @@
+#服务器配置相当于web.xml
+server:
+  port: 8080
+  servlet:
+    path: /
+    session:
+      timeout: 259200 #(秒)配置session的超时处理
+  tomcat:
+    uri-encoding: UTF-8
+#设置日志的显示级别,level中是以<k,v>存储的
+logging:
+  level:
+    com.huse.mapper: debug
+#配置数据库的连接
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/telephonebook?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    thymeleaf:
+      cache: false
+      encoding: UTF-8
+      mode: LEGACYHTML5
+      prefix: classpath:/templates/
+      suffix: .html #注意加一个点鸭
+    servlet:
+      content-type: text/html
+    aop:
+      auto: true
+      proxy-target-class: true
+    hikari:
+      connection-test-query: SELECT 1
+#字符编码设置
+encoding:
+  charset: UTF-8
+  enabled: true
+  force: true
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true  #设置驼峰
+    lazy-loading-enabled: true
+  mapper-locations: classpath:mapping/*.xml #设置mapper xml文件夹[如果使用通用mapper则不需要配置了]
+  type-aliases-package: com.huse.pojo #设置别名包
